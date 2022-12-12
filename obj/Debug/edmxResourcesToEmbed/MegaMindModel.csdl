@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MegaMindDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="MegaMindDBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="tblEmployees" EntityType="MegaMindDBModel.tblEmployee" />
+    <EntitySet Name="tblStates" EntityType="MegaMindDBModel.tblState" />
+    <AssociationSet Name="FK_tblEmployee_ToTable" Association="MegaMindDBModel.FK_tblEmployee_ToTable">
+      <End Role="tblState" EntitySet="tblStates" />
+      <End Role="tblEmployee" EntitySet="tblEmployees" />
+    </AssociationSet>
+    <FunctionImport Name="sp_GetEmployeeList" ReturnType="Collection(MegaMindDBModel.sp_GetEmployeeList_Result1)" />
+    <EntitySet Name="tblCities" EntityType="MegaMindDBModel.tblCity" />
+    <AssociationSet Name="FK_tblCity_ToTable" Association="MegaMindDBModel.FK_tblCity_ToTable">
+      <End Role="tblState" EntitySet="tblStates" />
+      <End Role="tblCity" EntitySet="tblCities" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="tblEmployee">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="false" />
+    <Property Name="PhoneNo" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="Address" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="State" Type="Int32" Nullable="false" />
+    <Property Name="City" Type="Int32" Nullable="false" />
+    <Property Name="Agree" Type="Boolean" />
+    <NavigationProperty Name="tblState" Relationship="MegaMindDBModel.FK_tblEmployee_ToTable" FromRole="tblEmployee" ToRole="tblState" />
+  </EntityType>
+  <EntityType Name="tblState">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="tblEmployees" Relationship="MegaMindDBModel.FK_tblEmployee_ToTable" FromRole="tblState" ToRole="tblEmployee" />
+    <NavigationProperty Name="tblCities" Relationship="MegaMindDBModel.FK_tblCity_ToTable" FromRole="tblState" ToRole="tblCity" />
+  </EntityType>
+  <Association Name="FK_tblEmployee_ToTable">
+    <End Type="MegaMindDBModel.tblState" Role="tblState" Multiplicity="1" />
+    <End Type="MegaMindDBModel.tblEmployee" Role="tblEmployee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblState">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="tblEmployee">
+        <PropertyRef Name="State" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <ComplexType Name="sp_GetEmployeeList_Result">
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="40" />
+    <Property Type="String" Name="Email" Nullable="false" MaxLength="40" />
+    <Property Type="String" Name="PhoneNo" Nullable="false" MaxLength="15" />
+  </ComplexType>
+  <ComplexType Name="sp_GetEmployeeList_Result1">
+    <Property Type="Int32" Name="Id" Nullable="false" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="40" />
+    <Property Type="String" Name="Email" Nullable="false" MaxLength="40" />
+    <Property Type="String" Name="PhoneNo" Nullable="false" MaxLength="15" />
+    <Property Type="String" Name="Address" Nullable="true" MaxLength="100" />
+    <Property Type="Int32" Name="State" Nullable="false" />
+    <Property Type="Int32" Name="City" Nullable="false" />
+    <Property Type="Boolean" Name="Agree" Nullable="true" />
+  </ComplexType>
+  <EntityType Name="tblCity">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="StateId" Type="Int32" />
+    <NavigationProperty Name="tblState" Relationship="MegaMindDBModel.FK_tblCity_ToTable" FromRole="tblCity" ToRole="tblState" />
+  </EntityType>
+  <Association Name="FK_tblCity_ToTable">
+    <End Type="MegaMindDBModel.tblState" Role="tblState" Multiplicity="0..1" />
+    <End Type="MegaMindDBModel.tblCity" Role="tblCity" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblState">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="tblCity">
+        <PropertyRef Name="StateId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

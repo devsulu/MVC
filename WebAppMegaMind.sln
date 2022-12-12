@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31424.327
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAppMegaMind", "WebAppMegaMind.csproj", "{C1CBE03E-FE3A-48F0-81DC-3ECCF0421764}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C1CBE03E-FE3A-48F0-81DC-3ECCF0421764}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1CBE03E-FE3A-48F0-81DC-3ECCF0421764}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1CBE03E-FE3A-48F0-81DC-3ECCF0421764}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1CBE03E-FE3A-48F0-81DC-3ECCF0421764}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0109E9CF-B2B1-42F9-9AED-7569E3498D79}
+	EndGlobalSection
+EndGlobal

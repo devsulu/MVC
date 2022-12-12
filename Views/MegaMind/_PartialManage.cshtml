@@ -1,0 +1,194 @@
+﻿
+@model WebAppMegaMind.Models.EmployeeModel
+@{
+    ViewBag.Title = "Manage";
+}
+<style type="text/css">
+    .error {
+        color: red;
+    }
+</style>
+<h2>MEGA MINDS</h2>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<script src="~/Views/MegaMind/MegaMind.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+
+<div id="LoaderImage" style="display:none;">
+    <img src="~/Images/LOADING.png" height="100" width="100" />
+</div>
+
+<div id="DivUpdate">
+
+</div>
+<div class="row clearfix">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <h2>
+                    Employee
+                </h2>
+            </div>
+            <div class="body">
+                <div class="form-horizontal">
+                    @using (Ajax.BeginForm("", "MegaMind", new AjaxOptions
+                    {
+                        HttpMethod = "Post",
+                        UpdateTargetId = "DivUpdate",
+                        LoadingElementId = "LoaderImage",
+                        InsertionMode = InsertionMode.Replace,
+                        Confirm = "Are you sure wants to insert data",
+                        LoadingElementDuration = 2000,
+                        OnComplete = "ClearFields"
+                    },
+                        new { id = "frmEmployee" }))
+
+                    {
+
+                        @Html.HiddenFor(Model => Model.Id)
+
+                        <div class="row clearfix">
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-5 form-control-label">
+                                <label for="Display_Name"> Name <span style="color:red">*</span></label>
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-7">
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = "Enter your Name", maxlength = "20", required = "", id = "txtname" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row clearfix">
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-5 form-control-label">
+                                <label for="Display_Name"> Email <span style="color:red">*</span></label>
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-7">
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Enter your Email Address", maxlength = "20", required = "", id = "txtemail" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row clearfix">
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-5 form-control-label">
+                                <label for="Display_Name"> Phone No. <span style="color:red">*</span></label>
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-7">
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        @Html.TextBoxFor(m => m.PhoneNo, new { @class = "form-control", placeholder = "Enter your Phone No.", maxlength = "20", required = "", id = "txtphoneno" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row clearfix">
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-5 form-control-label">
+                                <label for="Display_Name"> Address <span style="color:red">*</span></label>
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-7">
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        @Html.TextBoxFor(m => m.Address, new { @class = "form-control", placeholder = "Enter your Address", maxlength = "100", id = "txtaddress" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div><div class="row clearfix">
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-5 form-control-label">
+                                <label for="password">State<span style="color:red">*</span></label>
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-7">
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        @if (clsHelper.getState() != null)
+                                        {
+                                            @Html.DropDownListFor(m => m.State, new SelectList(clsHelper.getState(), "Value", "Text", Model.State), "--Select State--", new { @class = "form-control", required = "", id = "txtstate" })
+                                        }
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div><div class="row clearfix">
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-5 form-control-label">
+                                <label for="password">City<span style="color:red">*</span></label>
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-7">
+                                <div class="form-group">
+                                    <div class="form-line">
+
+                                        @Html.DropDownListFor(m => m.City, new SelectList(clsHelper.getCity(), "Value", "Text", Model.City), "--Select City--", new { @class = "form-control", required = "", id = "txtcity" })
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row clearfix">
+
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-5 form-control-label">
+                                <label for="userrole">I am Agree</label>
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-7">
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        @Html.CheckBoxFor(m => m.Agree, new { @class = "form-control", required = "", id = "txtagree" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        //Save_And_Cancel
+                        <div class="row clearfix">
+                            <div class="col-lg-offset-6 col-md-offset-2 col-sm-offset-4 col-xs-offset-5">
+                                <button type="submit" id="btnSave" class="btn btn-primary btn-sm m-t-15 waves-effect" onclick="SaveEmployee()">
+
+                                    <span>SAVE </span>
+                                </button>
+                                <button type="button" class="btn bg-blue-grey btn-sm m-t-15 waves-effect" onclick="Cancel()">
+
+                                    <span>CANCEL</span>
+                                </button>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function ClearFields() {
+        document.getElementById('txtname').value = "";
+        document.getElementById('txtemail').value = "";
+        document.getElementById('txtphoneno').value = "";
+        document.getElementById('txtaddress').value = "";
+        document.getElementById('txtstate').value = "";
+        document.getElementById('txtcity').value = "";
+    }
+</script>
+@section Scripts{
+    <script>
+
+        $(document).ready(function () {
+
+            $("#State").change(function () {
+                var stateId = $(this).val();
+
+                $.ajax({
+                    type: 'post',
+                    contentType: "html",
+                    url: "/MegaMind/GetCityList?stateid=" + stateId,
+                    success: function (response) {
+
+                        $("#City").empty();
+                        $("#City").append(response);
+                    }
+                })
+
+            })
+        })
+    </script>
+}
+
